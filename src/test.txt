@@ -1,0 +1,41 @@
+
+use rand::seq::SliceRandom;
+
+#[derive(Debug)]
+struct Deck{
+    cards: Vec<String>,
+}
+
+impl Deck{
+    fn new() -> Deck{
+        let suit = ["Spades", "Hearts", "Diamonds", "Clubs"];
+        let values = ["Ace", "2", "3"];
+        let mut cards = vec![];
+
+        for s in suit{
+            for value in values{
+                let card = format!("{} of {}", value, s);
+                cards.push(card);
+            }
+        }
+        Deck{cards}
+        
+    }
+
+    fn shuffle(&mut self){
+        let mut rng = rand::rng();
+        self.cards.shuffle(&mut rng);
+    }
+
+    fn deal(&mut self,num:usize) -> Vec<String>{
+        self.cards.split_off(self.cards.len()-num)
+    }
+}
+
+
+fn main() {
+
+    let mut cards = Deck::new();
+    
+    println!("here is the cards:{:#?}",cards.deal(2));
+}
